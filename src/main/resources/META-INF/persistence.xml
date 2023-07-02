@@ -24,6 +24,9 @@
         <class>belajar.jpa.m19y.entity.inheritance.singletable.Employee</class>
         <class>belajar.jpa.m19y.entity.inheritance.singletable.VicePresident</class>
         <class>belajar.jpa.m19y.entity.inheritance.singletable.Manager</class>
+        <class>belajar.jpa.m19y.entity.inheritance.joinedtable.Payment</class>
+        <class>belajar.jpa.m19y.entity.inheritance.joinedtable.PaymentCreditCard</class>
+        <class>belajar.jpa.m19y.entity.inheritance.joinedtable.PaymentGopay</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>

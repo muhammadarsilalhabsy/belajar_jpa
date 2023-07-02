@@ -1,6 +1,9 @@
 package belajar.jpa.m19y;
 
 import belajar.jpa.m19y.entity.Customer;
+import belajar.jpa.m19y.entity.inheritance.joinedtable.Payment;
+import belajar.jpa.m19y.entity.inheritance.joinedtable.PaymentCreditCard;
+import belajar.jpa.m19y.entity.inheritance.joinedtable.PaymentGopay;
 import belajar.jpa.m19y.entity.inheritance.singletable.Employee;
 import belajar.jpa.m19y.entity.inheritance.singletable.Manager;
 import belajar.jpa.m19y.entity.inheritance.singletable.VicePresident;
@@ -13,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 public class InheritanceTest {
   @Test
-  void transientColumn() {
+  void insertSingleTable() {
     EntityManagerFactory factory = JpaUtil.getEntityManagerFactory();
     EntityManager manager = factory.createEntityManager();
     EntityTransaction transaction = manager.getTransaction();
@@ -43,18 +46,70 @@ public class InheritanceTest {
   }
 
   @Test
-  void find() {
+  void findSingleTable() {
     EntityManagerFactory factory = JpaUtil.getEntityManagerFactory();
     EntityManager manager = factory.createEntityManager();
     EntityTransaction transaction = manager.getTransaction();
 
     transaction.begin();
 
-    Employee employee = manager.find(Employee.class, "v0001");
+    Employee employeeCast = manager.find(Employee.class, "v0001");
+    Employee employee = manager.find(Employee.class, "e0001");
 
-    VicePresident vp = (VicePresident) employee;
+    VicePresident vp = (VicePresident) employeeCast; // lebih baik menggunakan joined table
 
     Assertions.assertEquals("Arsil", vp.getName());
+    Assertions.assertEquals("Abilal", employee.getName());
+
+
+    transaction.commit();
+
+    manager.close();
+  }
+
+  @Test
+  void insertJoinedTable() {
+    EntityManagerFactory factory = JpaUtil.getEntityManagerFactory();
+    EntityManager manager = factory.createEntityManager();
+    EntityTransaction transaction = manager.getTransaction();
+
+    transaction.begin();
+
+    PaymentGopay gopay = new PaymentGopay();
+
+    gopay.setId("go0001");
+    gopay.setGopayId("8999910000");
+    gopay.setAmount(1_000_000L);
+    manager.persist(gopay);
+
+    PaymentCreditCard credit = new PaymentCreditCard();
+
+    credit.setBank("BCA");
+    credit.setId("cr0001");
+    credit.setAmount(250_000L);
+    credit.setMaskedCard("55555-333-4444");
+    manager.persist(credit);
+
+    transaction.commit();
+
+    manager.close();
+  }
+
+  @Test
+  void findJoinedTable() {
+    EntityManagerFactory factory = JpaUtil.getEntityManagerFactory();
+    EntityManager manager = factory.createEntityManager();
+    EntityTransaction transaction = manager.getTransaction();
+
+    transaction.begin();
+
+    PaymentGopay gopay = manager.find(PaymentGopay.class, "go0001");
+    Assertions.assertEquals(1_000_000L, gopay.getAmount());
+
+    Payment payment = manager.find(Payment.class, "cr0001");
+    PaymentCreditCard creditCard = (PaymentCreditCard) payment; // lebih baik menggunakan single table
+
+    Assertions.assertEquals(250_000L, creditCard.getAmount());
 
 
     transaction.commit();
