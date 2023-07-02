@@ -1,4 +1,4 @@
-package belajar.jpa.m19y.entity;
+package belajar.jpa.m19y.entity.inheritance.singletable;
 
 import jakarta.persistence.*;
 
@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Employee {
 
+  @Id
   private String id;
 
   private String name;

@@ -21,9 +21,9 @@
         <class>belajar.jpa.m19y.entity.Wallet</class>
         <class>belajar.jpa.m19y.entity.Brand</class>
         <class>belajar.jpa.m19y.entity.Product</class>
-        <class>belajar.jpa.m19y.entity.Employee</class>
-        <class>belajar.jpa.m19y.entity.VicePresident</class>
-        <class>belajar.jpa.m19y.entity.Manager</class>
+        <class>belajar.jpa.m19y.entity.inheritance.singletable.Employee</class>
+        <class>belajar.jpa.m19y.entity.inheritance.singletable.VicePresident</class>
+        <class>belajar.jpa.m19y.entity.inheritance.singletable.Manager</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>

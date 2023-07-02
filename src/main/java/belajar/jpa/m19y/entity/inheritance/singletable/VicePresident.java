@@ -1,4 +1,4 @@
-package belajar.jpa.m19y.entity;
+package belajar.jpa.m19y.entity.inheritance.singletable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
