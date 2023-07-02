@@ -4,6 +4,9 @@ import belajar.jpa.m19y.entity.Customer;
 import belajar.jpa.m19y.entity.inheritance.joinedtable.Payment;
 import belajar.jpa.m19y.entity.inheritance.joinedtable.PaymentCreditCard;
 import belajar.jpa.m19y.entity.inheritance.joinedtable.PaymentGopay;
+import belajar.jpa.m19y.entity.inheritance.perclass.Transaction;
+import belajar.jpa.m19y.entity.inheritance.perclass.TransactionCredit;
+import belajar.jpa.m19y.entity.inheritance.perclass.TransactionDebit;
 import belajar.jpa.m19y.entity.inheritance.singletable.Employee;
 import belajar.jpa.m19y.entity.inheritance.singletable.Manager;
 import belajar.jpa.m19y.entity.inheritance.singletable.VicePresident;
@@ -13,6 +16,9 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class InheritanceTest {
   @Test
@@ -111,6 +117,57 @@ public class InheritanceTest {
 
     Assertions.assertEquals(250_000L, creditCard.getAmount());
 
+
+    transaction.commit();
+
+    manager.close();
+  }
+
+  @Test
+  void insertTablePerClass() {
+    EntityManagerFactory factory = JpaUtil.getEntityManagerFactory();
+    EntityManager manager = factory.createEntityManager();
+    EntityTransaction transaction = manager.getTransaction();
+
+    transaction.begin();
+
+    Transaction trans = new Transaction();
+    trans.setId("t1");
+    trans.setBalance(1_000_000L);
+    trans.setCreatedAt(LocalDate.now());
+    manager.persist(trans);
+
+    TransactionCredit transCredit = new TransactionCredit();
+    transCredit.setId("t2");
+    transCredit.setBalance(1_000_000L);
+    transCredit.setCreatedAt(LocalDate.now());
+    transCredit.setCreditAmount(1_000_000L);
+    manager.persist(transCredit);
+
+    TransactionDebit transDebit = new TransactionDebit();
+    transDebit.setId("t3");
+    transDebit.setBalance(2_000_000L);
+    transDebit.setCreatedAt(LocalDate.now());
+    transDebit.setDebitAmount(1_000_000L);
+    manager.persist(transDebit);
+
+    transaction.commit();
+
+    manager.close();
+  }
+
+  @Test
+  void findTablePerClass() {
+    EntityManagerFactory factory = JpaUtil.getEntityManagerFactory();
+    EntityManager manager = factory.createEntityManager();
+    EntityTransaction transaction = manager.getTransaction();
+
+    transaction.begin();
+
+    Transaction trans = manager.find(Transaction.class, "t1");
+    TransactionCredit transCredit = manager.find(TransactionCredit.class, "t2");
+
+    TransactionDebit transDebit = manager.find(TransactionDebit.class, "t3");
 
     transaction.commit();
 

@@ -27,6 +27,9 @@
         <class>belajar.jpa.m19y.entity.inheritance.joinedtable.Payment</class>
         <class>belajar.jpa.m19y.entity.inheritance.joinedtable.PaymentCreditCard</class>
         <class>belajar.jpa.m19y.entity.inheritance.joinedtable.PaymentGopay</class>
+        <class>belajar.jpa.m19y.entity.inheritance.perclass.Transaction</class>
+        <class>belajar.jpa.m19y.entity.inheritance.perclass.TransactionDebit</class>
+        <class>belajar.jpa.m19y.entity.inheritance.perclass.TransactionCredit</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
